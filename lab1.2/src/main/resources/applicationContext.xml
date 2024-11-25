@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd ">
+    <context:property-placeholder location="graph.properties"/>
+    <bean id="pointCord" class="ru.danilov.Figure.Cords" scope="prototype">
+        <constructor-arg value="${point.x}"/>
+        <constructor-arg value="${point.y}"/>
+    </bean>
+    <bean id="point" class="ru.danilov.Figure.Point" scope="singleton">
+        <constructor-arg ref="pointCord"/>
+        <constructor-arg value="${point.color}"/>
+    </bean>
+    <bean id="circleCord" class="ru.danilov.Figure.Cords" scope="prototype">
+        <constructor-arg value="${circle.x}"/>
+        <constructor-arg value="${circle.y}"/>
+    </bean>
+    <bean id="circle" class="ru.danilov.Figure.Circle" scope="singleton">
+        <constructor-arg ref="circleCord"/>
+        <constructor-arg value="${circle.color}"/>
+        <constructor-arg value="${circle.radius}"/>
+    </bean>
+    <bean id="scene" class="ru.danilov.Scene" scope="singleton" >
+        <constructor-arg name="shapes">
+            <list>
+                <ref bean="point"/>
+                <ref bean="circle"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+</beans>
