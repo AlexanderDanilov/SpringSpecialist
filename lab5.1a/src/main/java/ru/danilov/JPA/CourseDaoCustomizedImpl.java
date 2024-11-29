@@ -2,6 +2,7 @@ package ru.danilov.JPA;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,9 +42,10 @@ public class CourseDaoCustomizedImpl implements CourseDaoCustomized {
     }
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS, isolation = Isolation.SERIALIZABLE)
     public double averageLength() {
-        return (double)entityManager.createQuery("SELECT AVG(c.length) FROM Course c").getResultList().get(0);
+        double result = (double)entityManager.createQuery("SELECT AVG(c.length) FROM Course c").getResultList().get(0);
+        return result;
        // return average(entityManager.createQuery("SELECT c.length FROM Course c").getResultList());
     }
 
